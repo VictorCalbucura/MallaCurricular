@@ -1,9 +1,10 @@
 import "@mantine/core/styles.css";
 import { useState } from "react";
 import TableR from "./components/table"
-import { Box, MantineProvider, BackgroundImage, Center } from "@mantine/core";
+import { Box, MantineProvider, BackgroundImage, Center, Space } from "@mantine/core";
 import Titulo from "./components/title";
 import Texto from "./components/text";
+import Texto2 from "./components/helpText";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,10 +28,13 @@ function App() {
           <Center style={{ marginTop: '2rem' }}>
             <Titulo/>
           </Center>
+          <Space h="md" />
+          <Texto2/>
 
           <Center style={{ flex: 1 }}>
             <TableR/>
           </Center>
+
           <Texto/>
         </BackgroundImage>
       </Box>

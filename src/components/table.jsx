@@ -13,6 +13,10 @@ function TableR() {
     return acc;
   }, {});
 
+  const maxSubjectsPerSemester = Math.max(
+    ...Object.values(groupSubject).map((subjects) => subjects.length)
+  );
+
   const handleSelect = (name) => {
     if (name === selected) {
       setSelected(null);
@@ -43,7 +47,7 @@ function TableR() {
 
   const rows = Object.keys(groupSubject).map((semester) => (
     <Table.Tr key={semester}>
-      <Table.Td style={{ backgroundColor: '#007BFF', color: '#fff', textAlign: 'center', border: '1px solid #ccc', padding: '8px' }}>
+      <Table.Td style={{ backgroundColor: '#007BFF', color: '#fff', textAlign: 'center' }}>
         <strong>{`Semestre ${semester}`}</strong>
       </Table.Td>
       {groupSubject[semester].map((subject, index) => {
@@ -61,7 +65,7 @@ function TableR() {
         }
 
         return (
-          <Table.Td key={index} style={{ textAlign: 'center', border: '1px solid #ccc', padding: '8px' }}>
+          <Table.Td key={index} style={{ textAlign: 'center', borderBottom: 'none' }}>
             <Button
               variant="outline"
               fullWidth
@@ -69,12 +73,18 @@ function TableR() {
               style={{
                 backgroundColor,
                 color: isSelected || isPrev || isNext ? 'white' : 'black',
-                transition: 'background-color 0.3s',
+                transition: 'background-color 0.4s, border-color 0.4s',
+                borderColor: 'transparent',
+                borderWidth: '1px',
               }}
               onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'black';
+                e.currentTarget.style.borderWidth = '3px';
                 if (!isSelected && !isPrev && !isNext) e.currentTarget.style.backgroundColor = '#f0f0f0';
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'transparent';
+                e.currentTarget.style.borderWidth = '1px';
                 if (!isSelected && !isPrev && !isNext) e.currentTarget.style.backgroundColor = 'white';
               }}
             >
@@ -83,6 +93,9 @@ function TableR() {
           </Table.Td>
         );
       })}
+      {Array.from({ length: maxSubjectsPerSemester - groupSubject[semester].length }).map((_, index) => (
+        <Table.Td key={`empty-${index}`} />
+      ))}
     </Table.Tr>
   ));
 
