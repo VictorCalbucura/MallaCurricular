@@ -5,13 +5,16 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - echo "Instalando dependencias..."
       - npm install
 
   build:
     commands:
+      - echo "Construyendo la app..."
       - npm run build
 
-artifacts:
-  files:
-    - '**/*'
-  base-directory: dist
+  post_build:
+    commands:
+      - echo "Sincronizando dist/ al bucket raíz de S3..."
+      # Asegúrate de definir TU_BUCKET en variables de entorno del proyecto:
+      - aws s3 sync dist/ s3://$BUCKET --delete
